@@ -1,0 +1,14 @@
+{
+	"plugin-name": "Attachment Privileges",
+	"description": "Restrict attachment downloads based on category Access Topics privilege. Files uploaded to posts in restricted categories are only downloadable by users with the Access Topics permission on that category.",
+	"settings.title": "Settings",
+	"settings.enabled": "Enable attachment privilege restriction",
+	"settings.enabled-hint": "When enabled, downloads of files uploaded to posts are only allowed for users who have the Access Topics (topics:read) permission on the file's category, for both per-group and per-user privileges. Disable to allow all downloads regardless of category privileges.",
+	"stats.title": "Statistics",
+	"stats.allow": "Allowed Downloads",
+	"stats.deny": "Denied Downloads",
+	"stats.refresh": "Refresh",
+	"stats.reset-note": "Statistics are in-memory counters and reset on every server restart.",
+	"saved-on": "Settings saved. The attachment privilege guard is now active.",
+	"saved-off": "Settings saved. The attachment privilege guard is now disabled."
+}

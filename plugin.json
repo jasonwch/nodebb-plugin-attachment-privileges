@@ -1,0 +1,20 @@
+{
+  "id": "nodebb-plugin-attachment-privileges",
+  "name": "Attachment Privileges",
+  "description": "Restrict attachment downloads based on category Access Topics privilege",
+  "url": "https://github.com/jasonwch/nodebb-plugin-attachment-privileges",
+  "library": "library.js",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" }
+  ],
+  "staticDirs": {
+    "static": "./static"
+  },
+  "modules": {
+    "../admin/plugins/attachment-privileges.js": "./static/lib/admin.js"
+  },
+  "templates": "static/templates",
+  "languages": "languages",
+  "defaultLang": "en-GB"
+}

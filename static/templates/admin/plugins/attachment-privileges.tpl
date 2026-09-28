@@ -20,24 +20,16 @@
 
 			<div class="mb-4">
 				<h5 class="fw-bold tracking-tight settings-header">{{tx("attachment-privileges:stats.title")}}</h5>
-				<div class="row mb-3">
-					<div class="col-md-3 col-6 mb-2">
-						<div class="card text-center">
-							<div class="card-body">
-								<h3 id="ap-stats-allow" class="mb-0">0</h3>
-								<p class="form-text mb-0">{{tx("attachment-privileges:stats.allow")}}</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-6 mb-2">
-						<div class="card text-center">
-							<div class="card-body">
-								<h3 id="ap-stats-deny" class="mb-0 text-danger">0</h3>
-								<p class="form-text mb-0">{{tx("attachment-privileges:stats.deny")}}</p>
-							</div>
+			<div class="row mb-3">
+				<div class="col-md-3 col-6 mb-2">
+					<div class="card text-center">
+						<div class="card-body">
+							<h3 id="ap-stats-deny" class="mb-0 text-danger">0</h3>
+							<p class="form-text mb-0">{{tx("attachment-privileges:stats.deny")}}</p>
 						</div>
 					</div>
 				</div>
+			</div>
 				<button type="button" class="btn btn-outline-secondary btn-sm" id="ap-refresh-stats">
 					<i class="fa fa-refresh"></i> {{tx("attachment-privileges:stats.refresh")}}
 				</button>

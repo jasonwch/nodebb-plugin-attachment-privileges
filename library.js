@@ -16,10 +16,11 @@ const ROUTE_PREFIX = '/assets/uploads/files/';
 
 const DENY = { allowed: false, status: 403 };
 const DENY_SERVER_ERROR = { allowed: false, status: 500 };
-const ALLOW = { allowed: true, status: 0 };
+const ALLOW_PUBLIC = { allowed: true, status: 0, worldReadable: true };
+const ALLOW_RESTRICTED = { allowed: true, status: 0, worldReadable: false };
 
-const ALLOW_CC = 'private, no-cache';
-const DENY_CC = 'private, no-store';
+const PUBLIC_CC = 'public, proxy-revalidate, no-transform, max-age=3600, s-maxage=60';
+const RESTRICTED_CC = 'private, no-cache';
 const VARY_COOKIE = 'Cookie';
 
 const stats = { allow: 0, deny: 0 };
@@ -44,7 +45,7 @@ async function checkAccess(filePath, uid) {
 
 	const pids = usages && usages[0];
 	if (!pids || !pids.length) {
-		return ALLOW;
+		return ALLOW_PUBLIC;
 	}
 
 	let cids;
@@ -57,12 +58,18 @@ async function checkAccess(filePath, uid) {
 	}
 
 	if (!cids.length) {
-		return ALLOW;
+		return ALLOW_PUBLIC;
 	}
 
 	try {
 		const accessible = await privileges.categories.filterCids(PRIVILEGE, cids, uid);
-		return accessible && accessible.length > 0 ? ALLOW : DENY;
+		const guestAccessible = uid === 0
+			? accessible
+			: await privileges.categories.filterCids(PRIVILEGE, cids, 0);
+		if (accessible && accessible.length > 0) {
+			return guestAccessible && guestAccessible.length > 0 ? ALLOW_PUBLIC : ALLOW_RESTRICTED;
+		}
+		return DENY;
 	} catch (e) {
 		winston.error('[attachment-privileges] filterCids failed for cids=' + cids.join(',') + ' uid=' + uid + ': ' + e.message);
 		return DENY_SERVER_ERROR;
@@ -105,8 +112,10 @@ plugin.init = async function (params) {
 
 			if (result.allowed) {
 				stats.allow++;
-				res.setHeader('Cache-Control', ALLOW_CC);
-				res.vary(VARY_COOKIE);
+				res.setHeader('Cache-Control', result.worldReadable ? PUBLIC_CC : RESTRICTED_CC);
+				if (!result.worldReadable) {
+					res.vary(VARY_COOKIE);
+				}
 
 				const _setHeader = res.setHeader.bind(res);
 				res.setHeader = function (name, value) {
@@ -120,13 +129,13 @@ plugin.init = async function (params) {
 			}
 
 			stats.deny++;
-			res.setHeader('Cache-Control', DENY_CC);
+			res.setHeader('Cache-Control', RESTRICTED_CC);
 			res.vary(VARY_COOKIE);
 			return res.status(result.status).json('not-allowed');
 		} catch (e) {
 			winston.error('[attachment-privileges] guard error: ' + e.message);
 			stats.deny++;
-			res.setHeader('Cache-Control', DENY_CC);
+			res.setHeader('Cache-Control', RESTRICTED_CC);
 			res.vary(VARY_COOKIE);
 			return res.status(500).json('server-error');
 		}

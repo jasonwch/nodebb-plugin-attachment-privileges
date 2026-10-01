@@ -6,7 +6,10 @@
   "library": "library.js",
   "hooks": [
     { "hook": "static:app.load", "method": "init" },
-    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" }
+    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
+    { "hook": "action:messaging.save", "method": "onMessageSaved" },
+    { "hook": "action:messaging.edit", "method": "onMessageEdited" },
+    { "hook": "action:messaging.delete", "method": "onMessageDeleted" }
   ],
   "staticDirs": {
     "static": "./static"

@@ -1,7 +1,7 @@
 {
   "name": "nodebb-plugin-attachment-privileges",
-  "version": "1.0.3",
-  "description": "Restrict attachment downloads based on category Access Topics privilege",
+  "version": "1.0.4",
+  "description": "Restrict attachment downloads based on category Access Topics privilege and chat room membership",
   "author": {
         "name": "JasonCH",
         "email": "jasonwch@msn.com"

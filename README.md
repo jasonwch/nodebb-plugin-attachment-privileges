@@ -8,6 +8,6 @@ Restrict attachment downloads based on category Access Topics privilege and chat
 - The uploader never loses fetch access to their own uploads (mirrors core's upload ownership model).
 - Attachments whose chat rooms have all been deleted are denied (fail-closed) rather than becoming public.
 - Association writes are durable: failed writes are queued for retry, and a boot-time catch-up (plus an hourly drain on the job-runner instance) heals anything lost to DB errors or a crash in the fire-and-forget window. No historical backfill — only messages sent after the mechanism is installed are tracked.
-- Auto add Cache-Control headers to attachments: allowed files get a 15-minute browser cache (`private`/`public` with `must-revalidate`), so revocation is enforced within 15 minutes or on reload; denials are never cached, so a newly granted user is let in immediately.
+- Auto add Cache-Control headers to attachments: allowed files get a 1 hour browser cache (`private`/`public` with `must-revalidate`), so revocation is enforced within 1 hour or on reload; denials are never cached, so a newly granted user is let in immediately.
 
 ![ACP](demo/acp.png)

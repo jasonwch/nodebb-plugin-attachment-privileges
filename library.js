@@ -52,8 +52,8 @@ const ALLOW_RESTRICTED = { allowed: true, status: 0, worldReadable: false };
 // no proxy involvement), then must revalidate — including on reload — so the
 // guard re-checks access. must-revalidate also forbids serving the stale copy
 // while the origin is unreachable; revocation lag is therefore bounded by max-age.
-const PUBLIC_CC = 'public, must-revalidate, no-transform, max-age=900, s-maxage=60';
-const RESTRICTED_ALLOW_CC = 'private, must-revalidate, no-transform, max-age=900';
+const PUBLIC_CC = 'public, must-revalidate, no-transform, max-age=3600, s-maxage=60';
+const RESTRICTED_ALLOW_CC = 'private, must-revalidate, no-transform, max-age=3600';
 // Denials and errors must never be negatively cached: a user granted access
 // after a denial is re-checked on the very next request.
 const RESTRICTED_CC = 'private, no-cache';
